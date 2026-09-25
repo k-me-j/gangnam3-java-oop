@@ -1,6 +1,6 @@
 package com.survivalcoding.day04_calss_instance;
 
-public class Wizard {
+public abstract class Wizard {
     static final int MIN_HP = 0;
     static final int MAX_HP = 50;
     static final int MIN_MP = 0;
@@ -65,8 +65,12 @@ public class Wizard {
         return mp;
     }
     
+    public int getMaxMp() {
+        return MAX_MP;
+    }
+    
     public void setMp(int mp) {
-        Validator.validateAtMost(mp, MAX_MP);
+        Validator.validateAtMost(mp, getMaxMp());
         Validator.validateAtLeast(mp, MIN_MP);
         
         this.mp = preventNegativeValue(mp);
@@ -98,4 +102,6 @@ public class Wizard {
         
         System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
     }
+    
+    public abstract int getMaxMp(int mp);
 }
