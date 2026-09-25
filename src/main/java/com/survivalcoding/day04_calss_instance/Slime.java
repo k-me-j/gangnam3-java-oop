@@ -3,6 +3,7 @@ package com.survivalcoding.day04_calss_instance;
 public class Slime {
     static final int MAX_HP = 20;
     static final int LEVEL = 10;
+    static final int ATTACK_DAMAGE = 10;
     
     private final String suffix;
     private int hp;
@@ -34,7 +35,14 @@ public class Slime {
         return suffix;
     }
     
-    void run() {
+    public void attack(Hero hero) {
+        System.out.printf("슬라임 %s이/가 공격했다%n", suffix);
+        System.out.printf("%d의 데미지%n", ATTACK_DAMAGE);
+        
+        hero.setHp(hero.getHp() - ATTACK_DAMAGE);
+    }
+    
+    public void run() {
         System.out.printf("슬라임 %s가 도망갔다%n", suffix);
     }
 }
