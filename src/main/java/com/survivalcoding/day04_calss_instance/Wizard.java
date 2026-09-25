@@ -5,11 +5,12 @@ public class Wizard {
     static final int MAX_HP = 50;
     static final int MIN_MP = 0;
     static final int MAX_MP = 10;
-    static final int BASE_HEAL_POINT = 10;  // 기본 회복 포인트
+    static final int BASE_HEAL_POINT = 20;  // 기본 회복 포인트
     static final int MIN_NAME_LENGTH = 2;
     
+    private int mp = 100;
+    
     private int hp;
-    private int mp;
     private String name;
     private Wand wand;
     
