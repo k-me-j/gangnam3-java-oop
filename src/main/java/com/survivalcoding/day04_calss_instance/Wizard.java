@@ -99,14 +99,21 @@ public class Wizard {
         return Math.max(value, 0);
     }
     
-    public void heal(Hero hero) {
+    public boolean hasEnoughMp(int mp) {
         if (mp < getHealMpCost()) {
-            System.out.printf("마나가 부족합니다. 현재 MP: %d%n", mp);
+            System.out.printf("마나가 부족합니다. 현재 MP: %d%n", getMp());
+            return false;
+        }
+        return true;
+    }
+    
+    public void heal(Hero hero) {
+        if (!hasEnoughMp(getMp())) {
             return;
         }
         
         hero.setHp(hero.getHp() + getBaseHealPoint());
-        setMp(mp - getHealMpCost());
+        setMp(getMp() - getHealMpCost());
         
         System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
     }
