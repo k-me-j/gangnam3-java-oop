@@ -1,10 +1,26 @@
 package com.survivalcoding.day04_calss_instance;
 
 public class Slime {
+    static final int MAX_HP = 20;
     static final int LEVEL = 10;
     
+    private final String suffix;
     private int hp;
-    private String suffix;
+    
+    Slime() {
+        this("Z", MAX_HP);
+    }
+    
+    Slime(String suffix) {
+        this(suffix, MAX_HP);
+    }
+    
+    Slime(String suffix, int hp) {
+        Validator.validateNotNull(suffix);
+        
+        this.suffix = suffix;
+        setHp(hp);
+    }
     
     public int getHp() {
         return hp;
@@ -16,10 +32,6 @@ public class Slime {
     
     public String getSuffix() {
         return suffix;
-    }
-    
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
     }
     
     void run() {
