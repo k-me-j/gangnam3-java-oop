@@ -4,12 +4,12 @@ public class Wizard {
     static final int MIN_HP = 0;
     static final int MAX_HP = 50;
     static final int MIN_MP = 0;
-    static final int MAX_MP = 10;
+    static final int MAX_MP = 100;
     static final int BASE_HEAL_POINT = 20;  // 기본 회복 포인트
     static final int HEAL_MP_COST = 10;
     static final int MIN_NAME_LENGTH = 2;
     
-    private int mp = 100;
+    private int mp;
     
     private int hp;
     private String name;
@@ -86,19 +86,27 @@ public class Wizard {
         this.wand = wand;
     }
     
+    public int getBaseHealPoint() {
+        return BASE_HEAL_POINT;
+    }
+    
+    public int getHealMpCost() {
+        return HEAL_MP_COST;
+    }
+    
     // method
     private int preventNegativeValue(int value) {
         return Math.max(value, 0);
     }
     
     public void heal(Hero hero) {
-        if (mp < HEAL_MP_COST) {
+        if (mp < getHealMpCost()) {
             System.out.printf("마나가 부족합니다. 현재 MP: %d%n", mp);
             return;
         }
         
-        hero.setHp(hero.getHp() + BASE_HEAL_POINT);
-        setMp(mp - HEAL_MP_COST);
+        hero.setHp(hero.getHp() + getBaseHealPoint());
+        setMp(mp - getHealMpCost());
         
         System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
     }
