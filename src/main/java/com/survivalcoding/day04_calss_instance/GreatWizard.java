@@ -2,6 +2,8 @@ package com.survivalcoding.day04_calss_instance;
 
 public class GreatWizard extends Wizard {
     static final int MAX_MP = 150;
+    static final int BASE_HEAL_POINT = 25;
+    static final int HEAL_MP_COST = 5;
     
     public GreatWizard() {
         super("대마법", MAX_HP, MAX_MP);
@@ -26,5 +28,15 @@ public class GreatWizard extends Wizard {
     @Override
     public int getMaxMp() {
         return MAX_MP;
+    }
+    
+    @Override
+    public int getBaseHealPoint() {
+        return BASE_HEAL_POINT;
+    }
+    
+    @Override
+    public int getHealMpCost() {
+        return HEAL_MP_COST;
     }
 }
