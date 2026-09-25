@@ -69,7 +69,7 @@ public class Wizard {
         Validator.validateAtMost(mp, MAX_MP);
         Validator.validateAtLeast(mp, MIN_MP);
         
-        this.mp = mp;
+        this.mp = preventNegativeValue(mp);
     }
     
     public Wand getWand() {
