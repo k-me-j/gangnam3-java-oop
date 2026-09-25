@@ -48,6 +48,6 @@ public class GreatWizard extends Wizard {
         hero.setHp(Hero.MAX_HP);
         setMp(getMp() - getHealMpCost());
         
-        System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
+        System.out.printf("슈퍼 힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
     }
 }
