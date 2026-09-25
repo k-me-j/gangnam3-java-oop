@@ -3,7 +3,7 @@ package com.survivalcoding.day04_calss_instance;
 public class Slime {
     static final int MAX_HP = 20;
     static final int LEVEL = 10;
-    static final int ATTACK_DAMAGE = 10;
+    private static final int ATTACK_DAMAGE = 10;
     
     private final String suffix;
     private int hp;
