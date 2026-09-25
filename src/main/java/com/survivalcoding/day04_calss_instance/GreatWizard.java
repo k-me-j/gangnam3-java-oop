@@ -39,4 +39,15 @@ public class GreatWizard extends Wizard {
     public int getHealMpCost() {
         return HEAL_MP_COST;
     }
+    
+    public void superHeal(Hero hero) {
+        if (!hasEnoughMp(getMp())) {
+            return;
+        }
+        
+        hero.setHp(Hero.MAX_HP);
+        setMp(getMp() - getHealMpCost());
+        
+        System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
+    }
 }
