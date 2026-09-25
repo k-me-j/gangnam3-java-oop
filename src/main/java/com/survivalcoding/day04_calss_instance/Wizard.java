@@ -1,6 +1,6 @@
 package com.survivalcoding.day04_calss_instance;
 
-public abstract class Wizard {
+public class Wizard {
     static final int MIN_HP = 0;
     static final int MAX_HP = 50;
     static final int MIN_MP = 0;
@@ -102,6 +102,4 @@ public abstract class Wizard {
         
         System.out.printf("힐을 시전했습니다. 대상 HP: %d%n", hero.getHp());
     }
-    
-    public abstract int getMaxMp(int mp);
 }
