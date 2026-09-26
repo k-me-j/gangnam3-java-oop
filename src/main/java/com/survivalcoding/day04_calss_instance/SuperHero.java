@@ -25,9 +25,9 @@ public class SuperHero extends Hero {
         isFlying = flying;
     }
     
-    @Override
-    public void run() {
-        System.out.println("멋지게 퇴각했다");
+    private void applyFlyAttack(Slime slime) {
+        slime.setHp(slime.getHp() - FLYING_ATTACK_DAMAGE);
+        System.out.printf("%d 포인트의 추가 피해를 입혔다%n", FLYING_ATTACK_DAMAGE);
     }
     
     @Override
@@ -35,8 +35,12 @@ public class SuperHero extends Hero {
         super.attack(slime);
         
         if (isFlying) {
-            slime.setHp(slime.getHp() - FLYING_ATTACK_DAMAGE);
-            System.out.printf("%d 포인트의 추가 피해를 입혔다%n", FLYING_ATTACK_DAMAGE);
+            applyFlyAttack(slime);
         }
+    }
+    
+    @Override
+    public void run() {
+        System.out.println("멋지게 퇴각했다");
     }
 }
