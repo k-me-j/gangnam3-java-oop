@@ -10,6 +10,12 @@ class CsvStockDataSource : StockDataSource {
 	
 	override fun loadStockListings(): List<StockListing> {
 		if (!file.exists()) {
+			TODO("사이트 접속해서 가져오기 넣기")
+			return emptyList()
+		}
+		
+		val lines = file.readLines().filter { it.isNotBlank() }
+		if (lines.isEmpty()) {
 			return emptyList()
 		}
 		
@@ -40,7 +46,7 @@ class CsvStockDataSource : StockDataSource {
 
 
 fun main() {
-	 val dataSource: StockDataSource = CsvStockDataSource()
+	val dataSource: StockDataSource = CsvStockDataSource()
 	
 	val stockList = dataSource.loadStockListings()
 	
