@@ -1,13 +1,9 @@
 package com.survivalcoding.kotlin_string
 
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class WordTest {
 	val testString = "Apple"
