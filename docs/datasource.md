@@ -51,8 +51,6 @@ class FileItemDataSource : ItemDataSource {
 | 기술 | 인터페이스에 노출 금지 | 구현체 내부에 숨길 것 |
 |------|-------------------------|------------------------|
 | 파일 | `File`, `Path`, 파일명, `InputStream` | `private val file = File("items.json")` |
-| DB | `Connection`, `Cursor`, SQL 문자열, Entity | 쿼리, 트랜잭션, Entity ↔ 모델 변환 |
-| 네트워크 | `HttpClient`, URL, `Response`, DTO, 상태 코드 | 요청/응답 처리, 재시도, 헤더 |
 | 직렬화 | `Json`, `String`(JSON 본문), `ByteArray` | `Json.decodeFromString` / `encodeToString` |
 
 체크리스트:
@@ -97,93 +95,6 @@ interface ProductDataSource {
 }
 ```
 
-### 4-2. Remote API 구현체
-
-```kotlin
-package com.survivalcoding.kotlin_datasource.data_source
-
-import com.survivalcoding.kotlin_datasource.model.Product
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-
-class RemoteProductDataSource : ProductDataSource {
-    // 네트워크 세부사항은 모두 private
-    private val client = HttpClient.newHttpClient()
-    private val baseUrl = "https://example.com/api/products"
-    private val json = Json { ignoreUnknownKeys = true }
-
-    // 응답 전용 DTO: 외부로 절대 노출하지 않는다
-    @Serializable
-    private data class ProductDto(val id: Long, val name: String, val price: Int)
-
-    override fun loadProducts(): List<Product> {
-        val request = HttpRequest.newBuilder(URI.create(baseUrl)).GET().build()
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-
-        if (response.statusCode() != 200) {
-            return emptyList()  // 데이터 없음 = 빈 리스트 (실패 정책은 프로젝트 규칙에 맞춰 결정)
-        }
-
-        return json.decodeFromString<List<ProductDto>>(response.body())
-            .map { Product(id = it.id, name = it.name, price = it.price) }  // DTO -> 모델
-    }
-
-    override fun saveProducts(products: List<Product>) {
-        val body = json.encodeToString(
-            products.map { ProductDto(it.id, it.name, it.price) }  // 모델 -> DTO
-        )
-        val request = HttpRequest.newBuilder(URI.create(baseUrl))
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(body))
-            .build()
-        client.send(request, HttpResponse.BodyHandlers.discarding())
-    }
-}
-```
-
-### 4-3. DB 구현체 (JDBC 예시)
-
-```kotlin
-package com.survivalcoding.kotlin_datasource.data_source
-
-import com.survivalcoding.kotlin_datasource.model.Product
-import java.sql.DriverManager
-
-class SqlProductDataSource : ProductDataSource {
-    private val url = "jdbc:sqlite:products.db"  // 접속 정보는 private
-
-    override fun loadProducts(): List<Product> {
-        DriverManager.getConnection(url).use { conn ->
-            conn.createStatement().use { stmt ->
-                val rs = stmt.executeQuery("SELECT id, name, price FROM products")
-                val result = mutableListOf<Product>()
-                while (rs.next()) {
-                    result += Product(rs.getLong("id"), rs.getString("name"), rs.getInt("price"))
-                }
-                return result  // ResultSet이 아닌 List<Product>만 반환
-            }
-        }
-    }
-
-    override fun saveProducts(products: List<Product>) {
-        DriverManager.getConnection(url).use { conn ->
-            conn.prepareStatement("INSERT OR REPLACE INTO products(id, name, price) VALUES (?, ?, ?)").use { ps ->
-                products.forEach {
-                    ps.setLong(1, it.id)
-                    ps.setString(2, it.name)
-                    ps.setInt(3, it.price)
-                    ps.addBatch()
-                }
-                ps.executeBatch()
-            }
-        }
-    }
-}
-```
 
 ### 4-4. 테스트용 메모리 구현체 (선택)
 
