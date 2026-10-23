@@ -4,6 +4,7 @@ import com.survivalcoding.kotlin_datasource.data_source.FakeItemDataSource
 import com.survivalcoding.kotlin_datasource.model.Item
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ItemRepositoryImplTest {
 	private lateinit var fakeDataSource: FakeItemDataSource
@@ -23,5 +24,13 @@ class ItemRepositoryImplTest {
 		
 		// 2. 데이터가 준비된 DataSource를 주입하여 Repository 생성
 		repository = ItemRepositoryImpl(fakeDataSource)
+	}
+	
+	@Test
+	fun `지정한 금액 이하의 아이템만 조회된다`() {
+		val affordableItems = repository.getItemUnderPrice(100_000)
+		
+		assertEquals(1, affordableItems.size)
+		assertEquals("무선 마우스", affordableItems.first().name)
 	}
 }
