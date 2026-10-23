@@ -14,7 +14,7 @@ class FileItemDataSource: ItemDataSource {
 		}
 		
 		val jsonText = file.readText()
-		if (jsonText.isBlank()) {
+		if (jsonText.isBlank()) {  // isBlank는 isEmpty를 포함
 			return emptyList()
 		}
 		
